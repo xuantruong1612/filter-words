@@ -1,0 +1,32 @@
+📊 Thống kê:
+    ▫️ Tổng số câu hỏi phát hiện: 330
+    ▫️ Câu hỏi trùng lặp (cùng nội dung): 232
+    ▫️ Câu hỏi hợp lệ còn lại: 98
+
+❌ Câu hỏi sai (từ khóa '0 /'):
+    ▫️ Câu hỏi 01 sai
+    ▫️ Câu hỏi 02 sai
+    ▫️ Câu hỏi 04 sai
+    ▫️ Câu hỏi 05 sai
+    ▫️ Câu hỏi 07 sai
+    ▫️ Câu hỏi 08 sai
+    ▫️ Câu hỏi 10 sai
+    ▫️ Câu hỏi 11 sai
+    ▫️ Câu hỏi 12 sai
+    ▫️ Câu hỏi 14 sai
+    ▫️ Câu hỏi 15 sai
+    ▫️ Câu hỏi 16 sai
+    ▫️ Câu hỏi 17 sai
+    ▫️ Câu hỏi 18 sai
+    ▫️ Câu hỏi 19 sai
+    ▫️ Câu hỏi 20 sai
+    ▫️ Câu hỏi 21 sai
+    ▫️ Câu hỏi 22 sai
+    ▫️ Câu hỏi 23 sai
+    ▫️ Câu hỏi 24 sai
+    ▫️ Câu hỏi 25 sai
+    ▫️ Câu hỏi 26 sai
+    ▫️ Câu hỏi 27 sai
+    ▫️ Câu hỏi 28 sai
+    ▫️ Câu hỏi 29 sai
+    ▫️ Câu hỏi 30 sai
