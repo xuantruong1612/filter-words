@@ -1,0 +1,34 @@
+📊 Thống kê:
+    ▫️ Tổng số câu hỏi phát hiện: 90
+    ▫️ Câu hỏi trùng lặp (cùng nội dung): 37
+    ▫️ Câu hỏi hợp lệ còn lại: 45
+
+⚠️ Phát hiện câu hỏi trùng số:
+    ▫️ Câu hỏi số 3 xuất hiện nhiều lần
+    ▫️ Câu hỏi số 12 xuất hiện nhiều lần
+    ▫️ Câu hỏi số 13 xuất hiện nhiều lần
+    ▫️ Câu hỏi số 15 xuất hiện nhiều lần
+    ▫️ Câu hỏi số 17 xuất hiện nhiều lần
+    ▫️ Câu hỏi số 18 xuất hiện nhiều lần
+    ▫️ Câu hỏi số 20 xuất hiện nhiều lần
+    ▫️ Câu hỏi số 21 xuất hiện nhiều lần
+    ▫️ Câu hỏi số 23 xuất hiện nhiều lần
+    ▫️ Câu hỏi số 23 xuất hiện nhiều lần
+    ▫️ Câu hỏi số 24 xuất hiện nhiều lần
+    ▫️ Câu hỏi số 27 xuất hiện nhiều lần
+    ▫️ Câu hỏi số 27 xuất hiện nhiều lần
+    ▫️ Câu hỏi số 28 xuất hiện nhiều lần
+    ▫️ Câu hỏi số 29 xuất hiện nhiều lần
+    ▫️ Câu hỏi số 30 xuất hiện nhiều lần
+    ✅ Đã tự động đánh số lại theo thứ tự 01, 02, 03...
+
+❌ Câu hỏi sai (từ khóa 'Incorrect'):
+    ▫️ Câu hỏi 01 sai
+    ▫️ Câu hỏi 02 sai
+    ▫️ Câu hỏi 04 sai
+    ▫️ Câu hỏi 07 sai
+    ▫️ Câu hỏi 08 sai
+    ▫️ Câu hỏi 14 sai
+    ▫️ Câu hỏi 19 sai
+    ▫️ Câu hỏi 22 sai
+    ▫️ Câu hỏi 30 sai

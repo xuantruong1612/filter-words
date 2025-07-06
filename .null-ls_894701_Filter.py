@@ -2,7 +2,7 @@ import re
 import os
 
 input_file = "input.txt"
-output_file = "output.txt"
+output_file = "ki-nang-khoi-nghiep-va-lanh-dao-chuong-1-2.txt"
 log_file = "log.txt"
 
 # Tạo file input mẫu nếu chưa có
@@ -20,6 +20,10 @@ with open(input_file, "r", encoding="utf-8") as f:
 if not content:
     print(f"File '{input_file}' không có nội dung.")
     exit(1)
+
+# 💡 Fix định dạng lỗi: dòng Question bị dính hoặc Incorrect bị dính
+content = re.sub(r"(?<!\n)(Question \d+)", r"\n\1", content)
+content = re.sub(r"(Incorrect)(Question \d+)", r"\1\n\2", content)
 
 # Kiểm tra có chứa 'pts'
 if not re.search(r"pts\n", content):
@@ -49,7 +53,8 @@ for full_block, after_pts in matches:
     question_number = question_number_match.group(1) if question_number_match else "?"
 
     # Kiểm tra câu sai
-    if invalid_marker in full_block:
+    is_incorrect = invalid_marker in full_block or "Incorrect" in full_block
+    if is_incorrect:
         if question_number != "?":
             incorrect_questions.add(f"Câu hỏi {int(question_number):02} sai")
         else:
@@ -59,16 +64,16 @@ for full_block, after_pts in matches:
     if len(lines) < 2 or not re.search(r"\s{1,}[\w\-–•]", lines[1]):
         format_errors.append(f"⚠️ Câu hỏi {question_number} không có phương án trả lời.")
 
-    # Lọc trùng theo nội dung câu hỏi (chỉ dòng đầu tiên sau pts)
-    if question_text_only not in seen_questions:
+    # Lọc trùng và bỏ qua câu sai
+    if question_text_only not in seen_questions and not is_incorrect:
         seen_questions.add(question_text_only)
         unique_blocks.append((question_number, after_pts.strip()))
-    else:
+    elif question_text_only in seen_questions:
         removed_blocks += 1
 
 # Ghi output
 with open(output_file, "w", encoding="utf-8") as f:
-    f.write("✅ Đã lọc câu hỏi trùng lặp (theo nội dung câu hỏi). Kết quả:\n\n")
+    f.write("✅ Đã lọc câu hỏi trùng lặp (theo nội dung câu hỏi).\nKết quả:\n\n")
     for i, (q_num, content_after_pts) in enumerate(unique_blocks, 1):
         f.write(f"Câu hỏi {q_num}:\n{content_after_pts}\n\n")
 
