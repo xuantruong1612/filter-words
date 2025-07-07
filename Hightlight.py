@@ -1,7 +1,7 @@
 import re
 import os
 
-input_file = "ktct.txt"
+input_file = "chuong1.md"
 
 # Tự chỉnh extension file output
 base_name = os.path.splitext(input_file)[0]  # Lấy tên file không có extension
