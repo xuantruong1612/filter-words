@@ -1,16 +1,49 @@
+# tạo file tô đậm đáp án
+
 import re
 import os
 
-input_file = "chuong1.md"
+def is_valid_file(file_path):
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            content = f.read()
+            return bool(re.search(r"Câu hỏi \d+:", content))
+    except:
+        return False
 
-# Tự chỉnh extension file output
-base_name = os.path.splitext(input_file)[0]  # Lấy tên file không có extension
-current_extension = os.path.splitext(input_file)[1]  # Extension hiện tại
+# Quét các file hợp lệ trong thư mục hiện tại
+all_files = [f for f in os.listdir() if os.path.isfile(f)]
+valid_files = [f for f in all_files if is_valid_file(f)]
 
-# Cho phép người dùng chọn extension
-print(f"File input: {input_file}")
-print(f"Extension hiện tại: {current_extension}")
-print("\nChọn extension file output:")
+if not valid_files:
+    print("❌ Không tìm thấy file hợp lệ trong thư mục.")
+    exit(1)
+
+# Hiển thị danh sách file cho người dùng chọn
+print("📄 Danh sách file hợp lệ:")
+for idx, file in enumerate(valid_files, start=1):
+    print(f"{idx}. {file}")
+
+# Người dùng chọn file
+while True:
+    try:
+        choice = int(input("\n➡️ Nhập số tương ứng với file muốn xử lý: "))
+        if 1 <= choice <= len(valid_files):
+            input_file = valid_files[choice - 1]
+            break
+        else:
+            print("⚠️ Số không hợp lệ. Vui lòng chọn lại.")
+    except ValueError:
+        print("⚠️ Vui lòng nhập số.")
+
+# Lấy tên file và đuôi mở rộng
+base_name = os.path.splitext(input_file)[0]
+current_extension = os.path.splitext(input_file)[1]
+
+# Cho phép chọn extension output
+print(f"\n📂 File input: {input_file}")
+print(f"📎 Extension hiện tại: {current_extension}")
+print("\nChọn định dạng file output:")
 print("1. .txt")
 print("2. .md")
 print("3. .docx")
@@ -36,28 +69,22 @@ elif choice == "6":
         custom_extension = "." + custom_extension
     new_extension = custom_extension
 else:
-    print("Lựa chọn không hợp lệ, giữ nguyên extension gốc")
+    print("⚠️ Lựa chọn không hợp lệ, giữ nguyên extension gốc.")
     new_extension = current_extension
 
-# Tạo folder và file output
-output_folder = base_name  # Tạo folder với tên trùng với file input (không có extension)
+# Chuẩn bị đường dẫn output
+output_folder = base_name
 output_file = os.path.join(output_folder, f"{base_name}-highlight{new_extension}")
-
-# Tạo folder nếu chưa tồn tại
 os.makedirs(output_folder, exist_ok=True)
 
-print(f"Folder output: {output_folder}/")
-print(f"File output: {output_file}")
+print(f"\n📁 Thư mục output: {output_folder}/")
+print(f"📝 File output: {output_file}")
 
-# Đọc file input
-try:
-    with open(input_file, "r", encoding="utf-8") as f:
-        content = f.read().strip()
-except FileNotFoundError:
-    print(f"❌ Không tìm thấy file '{input_file}'")
-    exit(1)
+# Đọc nội dung file input
+with open(input_file, "r", encoding="utf-8") as f:
+    content = f.read().strip()
 
-# Tách các câu hỏi: Câu hỏi X: + nội dung
+# Phân tích và xử lý
 blocks = re.split(r"(Câu hỏi \d+:)", content)
 
 if not blocks or len(blocks) < 3:
@@ -66,78 +93,42 @@ if not blocks or len(blocks) < 3:
 
 result = []
 processed_count = 0
+is_markdown = new_extension.lower() == ".md"
 
 for i in range(1, len(blocks), 2):
     if i + 1 >= len(blocks):
         break
-        
+
     header = blocks[i].strip()
     body = blocks[i + 1].strip()
-    
     lines = body.splitlines()
     if not lines:
         continue
+
+    question_lines = [lines[0]]
+    answer_lines = [line.strip() for line in lines[1:] if line.strip()]
     
-    # Tách câu hỏi và đáp án
-    # Giả sử: dòng đầu tiên là câu hỏi, các dòng còn lại là đáp án
-    question_lines = [lines[0]]  # Dòng đầu tiên là câu hỏi
-    answer_lines = []
-    
-    # Các dòng còn lại là đáp án
-    for line in lines[1:]:
-        line = line.strip()
-        if line:  # Bỏ qua dòng trống
-            answer_lines.append(line)
-    
-    if not answer_lines:
-        print(f"⚠️ {header}: Không có đáp án")
-        continue
-    
-    print(f"\n=== {header} ===")
-    print(f"Câu hỏi: '{question_lines[0]}'")
-    print("Tất cả đáp án:")
-    for idx, ans in enumerate(answer_lines):
-        print(f"  {idx}: '{ans}'")
-    
-    # Tìm đáp án đúng (có ** hoặc bắt đầu bằng dấu -)
     correct_answer = None
     correct_index = -1
-    
     for idx, ans in enumerate(answer_lines):
-        # Kiểm tra đáp án đúng: có **- hoặc bắt đầu bằng -
-        if "**-" in ans or "**–" in ans or "**•" in ans or ans.startswith(("-", "–", "•")):
-            print(f"  -> Tìm thấy đáp án đúng: '{ans}'")
-            # Đảm bảo có format **text**
-            if not ans.startswith("**"):
-                correct_answer = f"**{ans}**"
-            else:
-                correct_answer = ans
+        if ans.startswith(("-", "–", "•")):
+            correct_answer = ans
             correct_index = idx
             break
-    
-    # Sắp xếp lại đáp án
+
     if correct_answer is not None and correct_index >= 0:
-        print(f"Đưa đáp án đúng lên đầu: '{correct_answer}'")
-        # Xóa khỏi vị trí cũ
         answer_lines.pop(correct_index)
-        # Thêm vào đầu
-        answer_lines.insert(0, correct_answer)
-        print("Thứ tự mới:")
-        for idx, ans in enumerate(answer_lines):
-            print(f"  {idx}: '{ans}'")
-    else:
-        print("❌ Không tìm thấy đáp án đúng!")
-    
-    # Ghép lại thành block hoàn chỉnh
+        highlighted = f"**{correct_answer}**" if is_markdown else correct_answer
+        answer_lines.insert(0, highlighted)
+
     full_block = [header] + question_lines + answer_lines
     result.append("\n".join(full_block))
     processed_count += 1
 
-# Ghi file kết quả
 if result:
     with open(output_file, "w", encoding="utf-8") as f:
         f.write("\n\n".join(result))
-    print(f"\n✅ Đã xử lý {processed_count} câu hỏi hoàn tất.")
-    print(f"✅ Kết quả nằm trong '{output_file}'")
+    print(f"\n✅ Đã xử lý {processed_count} câu hỏi.")
+    print(f"📌 Kết quả lưu tại: {output_file}")
 else:
     print("❌ Không có câu hỏi nào được xử lý.")
