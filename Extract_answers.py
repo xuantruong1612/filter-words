@@ -8,7 +8,7 @@ def extract_answers(text: str) -> dict:
     current_question = 1
     for line in text.splitlines():
         line = line.strip()
-        if line.lower().startswith("câu hỏi"):
+        if line.lower().startswith("question"):
             current_question = int("".join(filter(str.isdigit, line)))
         elif line.startswith("-"):
             answer_text = line[1:].strip()
@@ -16,14 +16,14 @@ def extract_answers(text: str) -> dict:
     return answers
 
 def main():
-    input_file = input("📄 Nhập tên file đầu vào (ví dụ: input.txt): \n➡️").strip() or "input.txt"
+    input_file = input("📄 Nhập tên file đầu vào (ví dụ: input.txt): \n➡️  ").strip() or "input.txt"
     output_file = "answers.json"
 
     input_path = Path(input_file)
     output_path = Path(output_file)
 
     if not input_path.exists():
-        print(f"❌ File {input_file} không tồn tại.")
+        print(f"❌ File {input_file} không tồn tại")
         return
 
     text = input_path.read_text(encoding="utf-8")

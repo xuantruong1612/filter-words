@@ -1,4 +1,4 @@
-# tạo file tô đậm đáp án
+# tạo file tô đậm đáp án, cho đáp án đúng lên đầu
 
 import re
 import os
